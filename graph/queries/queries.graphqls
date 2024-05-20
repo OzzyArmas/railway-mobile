@@ -1,0 +1,94 @@
+query Environment($environmentId: String!) {
+    environment(id: $environmentId) {
+        createdAt
+        projectId
+        updatedAt
+        serviceInstances {
+            edges {
+                node {
+                    latestDeployment {
+                        status
+                        service {
+                            icon
+                            deletedAt
+                        }
+                    }
+                    serviceId
+                    source {
+                        image
+                        repo
+                    }
+                }
+            }
+        }
+    }
+}
+
+query Service($serviceId: String!) {
+    service(id: $serviceId) {
+        createdAt
+        icon
+        id
+        name
+        projectId
+        templateThreadSlug
+        updatedAt
+        deployments {
+            edges {
+                node {
+                    canRedeploy
+                    canRollback
+                    createdAt
+                    environmentId
+                    id
+                    meta
+                    status
+                    updatedAt
+                }
+            }
+        }
+    }
+}
+
+
+query GithubRepos {
+    githubRepos {
+        defaultBranch
+        fullName
+        id
+        installationId
+        isPrivate
+        name
+    }
+}
+
+query Template($code: String!) {
+    template(code: $code) {
+        services {
+            edges {
+                node {
+                    config
+                    id
+                }
+            }
+        }
+    }
+}
+
+query Deployments ($serviceId: String!, $projectId: String, $environmentId: String) {
+    deployments(input: { serviceId: $serviceId, projectId: $projectId, environmentId: $environmentId }) {
+        edges {
+            node {
+                canRedeploy
+                canRollback
+                createdAt
+                environmentId
+                id
+                meta
+                status
+                updatedAt
+            }
+        }
+    }
+}
+

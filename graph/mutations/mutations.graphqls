@@ -1,0 +1,44 @@
+mutation templateDeploy ($environmentId: String!, $projectId: String! $templateCode: String!, $services: [TemplateDeployService!]!){
+    templateDeploy(
+        input: {
+            projectId: $projectId
+            environmentId: $environmentId
+            services: $services
+            templateCode: $templateCode
+        }
+    ) {
+        projectId
+        workflowId
+    }
+}
+
+mutation serviceDelete ($id: String!) {
+    serviceDelete(id: $id)
+}
+
+mutation githubServiceCreate ($repo: String!, $environmentId: String!, $projectId: String!, $branch: String!, $name: String) {
+    serviceCreate(
+        input: { source: { repo: $repo }, environmentId: $environmentId, projectId: $projectId, branch: $branch, name: $name }
+    ) {
+        createdAt
+    }
+}
+
+mutation imageServiceCreate ($image: String!, $environmentId: String!, $projectId: String!, $name: String){
+    serviceCreate(
+        input: { source: { image: $image }, environmentId: $environmentId, projectId: $projectId, name: $name }
+    ) {
+        createdAt
+    }
+}
+
+mutation DeploymentRollback ($deploymentId: String!) {
+    deploymentRollback(id: $deploymentId)
+}
+
+mutation DeploymentRedeploy ($deploymentId: String!) {
+    deploymentRedeploy(id: $deploymentId) {
+        status
+    }
+}
+
